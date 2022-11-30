@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createContext, useState } from 'react'
 import { TouchableOpacity, StyleSheet, View,Image } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
@@ -9,6 +9,10 @@ import BackButton from '../components/BackButton'
 import { theme } from '../theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import { BASE_URL } from '../../backend.config'
+
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -21,13 +25,33 @@ export default function LoginScreen({ navigation }) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
       return
+    }else{
+      var emailVal=email.value;
+      var passVal=password.value;
+      var loginStr=BASE_URL+"/auth/login";
+      console.log(loginStr);
+      axios
+      .post(loginStr, {
+        "userMail":emailVal,
+        "userPassword":passVal
+      })
+      .then(res => {
+        let userInfo = res.data;
+        AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));//JSON.stringify(userInfo) ifade yerine direkt userInfo yazılması gerekiyor olabilir.
+        //console.log(userInfo.durum);
+        if(userInfo.durum){
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        }        
+      })
+      .catch(e => {
+        console.log(`register error ${e}`);
+      });
     }
     //ilk if geçildikten sonra veri tabanı işlemleri burada yapılıcak
-    //token oluşturma vb...
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+    //token oluşturma vb...    
   }
 
   return (

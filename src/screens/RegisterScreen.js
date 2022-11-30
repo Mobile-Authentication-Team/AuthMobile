@@ -9,6 +9,9 @@ import { theme } from '../theme'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { emailValidator } from '../helpers/emailValidator'
 import { nameValidator } from '../helpers/nameValidator'
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {BASE_URL} from '../../backend.config.js';
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' });
@@ -24,8 +27,29 @@ export default function RegisterScreen({ navigation }) {
         setEmail({ ...email, error: emailError });
         setPassword({ ...password, error: passwordError });
         return;
-      }
-    navigation.navigate('LoginScreen')
+      }else{
+
+        var nameVal=name.value;
+        var emailVal=email.value;
+        var passVal=password.value;
+        var sigUpStr=BASE_URL+"/auth/signup";
+        console.log(sigUpStr);
+        axios
+        .post(sigUpStr, {
+          "userName":nameVal,
+          "userMail":emailVal,
+          "userPassword":passVal,
+        })
+        .then(res => {
+          let userInfo = res.data;
+          //AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+          console.log(userInfo);
+          navigation.navigate('LoginScreen');
+        })
+        .catch(e => {
+          console.log(`register error ${e}`);
+        });
+      }    
   }
 
   return (
