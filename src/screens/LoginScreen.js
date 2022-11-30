@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
         let userInfo = res.data;
         AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));//JSON.stringify(userInfo) ifade yerine direkt userInfo yazılması gerekiyor olabilir.
         //console.log(userInfo.durum);
-        if(userInfo.durum){
+        if(userInfo.token){
           navigation.reset({
             index: 0,
             routes: [{ name: 'Dashboard' }],
