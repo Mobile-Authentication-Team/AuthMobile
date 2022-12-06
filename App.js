@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,11 +15,12 @@ Dashboard,
 const Stack = createNativeStackNavigator();
 
 
+
 export default function App() {
   return (
     <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator
+        <Stack.Navigator        
           initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
