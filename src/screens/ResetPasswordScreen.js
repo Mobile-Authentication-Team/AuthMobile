@@ -4,7 +4,11 @@ import BackButton from '../components/BackButton'
 import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import Button from '../components/Button'
+import {Alert,TextInput} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import { emailValidator } from '../helpers/emailValidator'
+import axios from 'axios';
+import {BASE_URL} from '../../backend.config.js';
 
 export default function ResetPasswordScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -14,8 +18,30 @@ export default function ResetPasswordScreen({ navigation }) {
     if (emailError) {
       setEmail({ ...email, error: emailError })
       return
-    }
-    navigation.navigate('LoginScreen')
+    }else{
+      var emailVal=email.value;
+      var resetStr=BASE_URL+"/auth/resetPass";
+      console.log(resetStr);
+      axios
+      .post(resetStr, {
+        "userMail":emailVal
+      })
+      .then(res => {
+        let resetMessage = res.data;
+        console.log(resetMessage);
+        Alert.alert(
+        'Başarılı!',
+        `Şifre sıfırlama işlemine devam etmek için lütfen ${emailVal} adresini kontrol edin.`,
+        );
+        // Kullanıcıyı oturum açma ekranınıza yönlendirir
+        navigation.navigate('LoginScreen');
+      })
+      .catch(e => {
+        console.log(`email error ${e}`);
+        res.status(500).send(e);
+        Alert.alert('Error!', error.e);
+      });
+    } 
   }
 
   return (
