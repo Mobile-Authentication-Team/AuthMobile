@@ -11,8 +11,8 @@ export default function Dashboard({ navigation }) {
   const [userMail,setUserMail]=useState("");
   AsyncStorage.getItem('userInfo').then(value=>{
     var data=JSON.parse(value);
-    setUserMail(data.user.userName);
-    setUserName(data.user.userMail);
+    setUserMail(data.user.userMail);
+    setUserName(data.user.userName);
     //console.log("userInfo:"+value);    
   });     
   

@@ -30,8 +30,8 @@ export default function ResetPasswordScreen({ navigation }) {
         let resetMessage = res.data.mesaj;
         console.log(resetMessage);
         Alert.alert(
-        'Başarılı!',
-        `Şifre sıfırlama işlemine devam etmek için lütfen ${emailVal} adresini kontrol edin.`,
+          `${resetMessage.baslik}`,
+          `${resetMessage.mesaj}`,
         );
         // Kullanıcıyı oturum açma ekranınıza yönlendirir
         navigation.navigate('LoginScreen');
