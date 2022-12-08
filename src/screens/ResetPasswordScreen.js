@@ -4,7 +4,7 @@ import BackButton from '../components/BackButton'
 import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import Button from '../components/Button'
-import {Alert,TextInput} from 'react-native';
+import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { emailValidator } from '../helpers/emailValidator'
 import axios from 'axios';
@@ -27,7 +27,7 @@ export default function ResetPasswordScreen({ navigation }) {
         "userMail":emailVal
       })
       .then(res => {
-        let resetMessage = res.data;
+        let resetMessage = res.data.mesaj;
         console.log(resetMessage);
         Alert.alert(
         'Başarılı!',
@@ -39,7 +39,7 @@ export default function ResetPasswordScreen({ navigation }) {
       .catch(e => {
         console.log(`email error ${e}`);
         res.status(500).send(e);
-        Alert.alert('Error!', error.e);
+        Alert.alert('Error!', e);
       });
     } 
   }
