@@ -27,8 +27,8 @@ export default function ResetPasswordScreen({ navigation }) {
         "userMail":emailVal
       })
       .then(res => {
-        let resetMessage = res.data.mesaj;
-        console.log(resetMessage);
+        let resetMessage = res.data;
+        console.log(resetMessage.mesaj);
         Alert.alert(
           `${resetMessage.baslik}`,
           `${resetMessage.mesaj}`,
