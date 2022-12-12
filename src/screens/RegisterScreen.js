@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, TouchableOpacity } from 'react-native';
 import Background from '../components/Background'
 import BackButton from '../components/BackButton'
 import Header from '../components/Header'
@@ -42,9 +42,15 @@ export default function RegisterScreen({ navigation }) {
         })
         .then(res => {
           let userInfo = res.data;
+          console.log();
+          Alert.alert(
+            `${userInfo.title}`,
+            `${userInfo.message}`,
+          );
           //AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
           console.log(userInfo);
-          navigation.navigate('LoginScreen');
+          if(userInfo.title!="Hata"){
+            navigation.navigate('LoginScreen');}   
         })
         .catch(e => {
           console.log(`register error ${e}`);
