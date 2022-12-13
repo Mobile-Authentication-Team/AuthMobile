@@ -44,12 +44,12 @@ export default function RegisterScreen({ navigation }) {
           let userInfo = res.data;
           console.log();
           Alert.alert(
-            `${userInfo.title}`,
-            `${userInfo.message}`,
+            `${userInfo.baslik}`,
+            `${userInfo.mesaj}`,
           );
           //AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
           console.log(userInfo);
-          if(userInfo.title!="Hata"){
+          if(userInfo.baslik!="Başarısız!"){
             navigation.navigate('LoginScreen');}   
         })
         .catch(e => {

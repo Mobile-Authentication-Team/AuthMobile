@@ -34,7 +34,8 @@ export default function ResetPasswordScreen({ navigation }) {
           `${resetMessage.mesaj}`,
         );
         // Kullanıcıyı oturum açma ekranınıza yönlendirir
-        navigation.navigate('LoginScreen');
+        if(res.data.baslik!="Başarısız!"){navigation.navigate('LoginScreen');}
+        
       })
       .catch(e => {
         console.log(`email error ${e}`);
