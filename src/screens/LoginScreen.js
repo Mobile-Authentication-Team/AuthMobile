@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { TouchableOpacity, StyleSheet, View,Image } from 'react-native'
+import { TouchableOpacity, StyleSheet, View,Image, Alert } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Header from '../components/Header'
@@ -38,12 +38,17 @@ export default function LoginScreen({ navigation }) {
       .then(res => {
         let userInfo = res.data;
         AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));//JSON.stringify(userInfo) ifade yerine direkt userInfo yazılması gerekiyor olabilir.
-        //console.log(userInfo.durum);
+        //console.log(userInfo.mesaj);
         if(userInfo.token){
           navigation.reset({
             index: 0,
             routes: [{ name: 'Dashboard' }],
           })
+        }else{
+          Alert.alert(
+            `Giriş Başarısız`,
+            `${userInfo.mesaj}`,
+          );
         }        
       })
       .catch(e => {
