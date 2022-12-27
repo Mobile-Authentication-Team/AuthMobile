@@ -4,20 +4,21 @@ import Header from '../components/Header'
 import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Alert } from 'react-native'
 
 
 export default function Dashboard({ navigation }) {
-  const [userName,setUserName]=useState("");
-  const [userMail,setUserMail]=useState("");
-  AsyncStorage.getItem('userInfo').then(value=>{
-    var data=JSON.parse(value);
+  const [userName, setUserName] = useState("");
+  const [userMail, setUserMail] = useState("");
+  AsyncStorage.getItem('userInfo').then(value => {
+    var data = JSON.parse(value);
     setUserMail(data.user.userMail);
     setUserName(data.user.userName);
     //console.log("userInfo:"+value);    
-  });     
-  
+  });
+
+
   return (
-    
     <Background>
       <Paragraph>Ad:{userName}</Paragraph>
       <Paragraph>Mail: {userMail}</Paragraph>
@@ -27,14 +28,17 @@ export default function Dashboard({ navigation }) {
       </Paragraph>
       <Button
         mode="outlined"
-        onPress={() =>
+        onPress={() => {
+          Alert.alert('Çıkış Yapıldı.');
+          AsyncStorage.removeItem('userInfo');
           navigation.reset({
             index: 0,
             routes: [{ name: 'StartScreen' }],
-          })
+          });
+        }
         }
       >
-        ÇIKIŞ YAP 
+        ÇIKIŞ YAP
       </Button>
     </Background>
   )
